@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  name      String
+  email     String    @unique
+  password  String
+  image     String
+  Session   Session[]
+  Shelf     Shelf[]
+
+  @@map("users")
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  token     String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}
+
+model Author {
+  id   Int    @id @default(autoincrement())
+  name String
+  Book Book[]
+
+  @@map("authors")
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+  Book Book[]
+
+  @@map("categories")
+}
+
+model Book {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  title      String
+  synopsis   String
+  totalPages Int
+  preSale    Boolean  @default(false)
+  release    Boolean  @default(false)
+  authorId   Int
+  author     Author   @relation(fields: [authorId], references: [id])
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  Shelf      Shelf[]
+  Rating     Rating[]
+
+  @@map("books")
+}
+
+model Shelf {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  Ihave     Boolean    @default(false)
+  type      BookType
+  status    BookStatus
+  bookId    Int
+  book      Book       @relation(fields: [bookId], references: [id])
+  userId    Int
+  user      User       @relation(fields: [userId], references: [id])
+  History   History[]
+  Rating    Rating[]
+
+  @@map("shelf")
+}
+
+enum BookType {
+  paper
+  ebook
+  audio
+
+  @@map("bookType")
+}
+
+enum BookStatus {
+  done
+  reading
+  wish
+  abandoned
+  rereading
+
+  @@map("bookStatus")
+}
+
+model History {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  comment     String
+  pagesRead   Int
+  evolutionIn Evolution
+  shelfId     Int
+  shelf       Shelf     @relation(fields: [shelfId], references: [id])
+
+  @@map("histories")
+}
+
+enum Evolution {
+  pages
+  percentage
+}
+
+model Rating {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  stars     Float
+  startDate DateTime
+  endDate   DateTime
+  shelfId   Int
+  shelf     Shelf    @relation(fields: [shelfId], references: [id])
+  bookId    Int
+  book      Book     @relation(fields: [bookId], references: [id])
+
+  @@map("ratings")
+}
