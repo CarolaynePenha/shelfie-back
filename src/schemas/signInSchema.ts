@@ -8,10 +8,7 @@ const signInSchema = joi.object<CreateUser>({
       /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}/
     )
     .required(),
-  email: joi
-    .string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .required(),
+  email: joi.string().email({ minDomainSegments: 2 }).required(),
 });
 
 export default signInSchema;

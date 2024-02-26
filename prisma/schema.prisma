@@ -32,7 +32,7 @@ model Session {
 
 model Author {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
   Book Book[]
 
   @@map("authors")
@@ -40,7 +40,7 @@ model Author {
 
 model Category {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
   Book Book[]
 
   @@map("categories")

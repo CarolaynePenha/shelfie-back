@@ -3,10 +3,7 @@ import { CreateUser } from "../controllers/authController.js";
 
 const signUpSchema = joi.object<CreateUser>({
   name: joi.string().required().max(30),
-  email: joi
-    .string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .required(),
+  email: joi.string().email({ minDomainSegments: 2 }).required(),
   password: joi
     .string()
     .pattern(

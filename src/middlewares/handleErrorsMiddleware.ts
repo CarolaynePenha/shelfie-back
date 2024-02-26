@@ -10,8 +10,8 @@ const serviceErrorToStatusCode = {
 export function badRequestError(message: string) {
   return { type: "badRequest", message };
 }
-export function unauthorizedError(message: string) {
-  return { type: "unauthorized", message };
+export function unauthorizedError(message?: string) {
+  return { type: "unauthorized", message: message ?? "" };
 }
 
 export function notFoundError(message: string) {
