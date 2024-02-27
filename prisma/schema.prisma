@@ -14,8 +14,8 @@ model User {
   email     String    @unique
   password  String
   image     String
-  Session   Session[]
-  Shelf     Shelf[]
+  session   Session[]
+  shelf     Shelf[]
 
   @@map("users")
 }
@@ -33,7 +33,7 @@ model Session {
 model Author {
   id   Int    @id @default(autoincrement())
   name String @unique
-  Book Book[]
+  book Book[]
 
   @@map("authors")
 }
@@ -41,7 +41,7 @@ model Author {
 model Category {
   id   Int    @id @default(autoincrement())
   name String @unique
-  Book Book[]
+  book Book[]
 
   @@map("categories")
 }
@@ -58,8 +58,8 @@ model Book {
   author     Author   @relation(fields: [authorId], references: [id])
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
-  Shelf      Shelf[]
-  Rating     Rating[]
+  shelf      Shelf[]
+  rating     Rating[]
 
   @@map("books")
 }
@@ -67,15 +67,15 @@ model Book {
 model Shelf {
   id        Int        @id @default(autoincrement())
   createdAt DateTime   @default(now())
-  Ihave     Boolean    @default(false)
+  iHave     Boolean    @default(false)
   type      BookType
   status    BookStatus
   bookId    Int
   book      Book       @relation(fields: [bookId], references: [id])
   userId    Int
   user      User       @relation(fields: [userId], references: [id])
-  History   History[]
-  Rating    Rating[]
+  history   History[]
+  rating    Rating[]
 
   @@map("shelf")
 }
