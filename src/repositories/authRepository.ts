@@ -15,10 +15,17 @@ async function createSession(signInInfos: CreateSession) {
   await prisma.session.create({ data: signInInfos });
 }
 
+async function findUserById(id: number) {
+  const user = await prisma.user.findUnique({ where: { id } });
+  delete user.password;
+  return user;
+}
+
 const authRepository = {
   findByEmail,
   postUserInfos,
   createSession,
+  findUserById,
 };
 
 export default authRepository;

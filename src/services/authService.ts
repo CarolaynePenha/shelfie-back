@@ -36,7 +36,7 @@ async function createSession(signInInfos: CreateUser) {
   validPassword(signInInfos.password, user.password);
   const token = tokenGeneration(user.id);
   await authRepository.createSession({ token, userId: user.id });
-  return token;
+  return { token, userName: user.name, image: user.image };
 }
 function validPassword(textPassword: string, hashPassword: string) {
   const validation = bcrypt.compareSync(textPassword, hashPassword);
