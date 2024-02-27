@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { unauthorizedError } from "./handleErrorsMiddleware.js";
+
 export default async function tokenValidation(
   req: Request,
   res: Response,
@@ -13,7 +14,8 @@ export default async function tokenValidation(
     throw unauthorizedError(message);
   }
   try {
-    jwt.verify(token, process.env.KEY);
+    const decoded = jwt.verify(token, process.env.KEY);
+    res.locals.userId = decoded.data;
   } catch (error) {
     const message = `Invalid token: ${error.message}`;
     throw unauthorizedError(message);
