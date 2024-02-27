@@ -5,6 +5,7 @@ const insertionBooksSchema = joi.object<CreateBooks | CreateBooks[]>({
   title: joi.string().required(),
   synopsis: joi.string().required(),
   authorId: joi.number().required(),
+  bookImage: joi.string().uri().required(),
   categoryId: joi.number().required(),
   totalPages: joi.number().required(),
   preSale: joi.boolean(),

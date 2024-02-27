@@ -11,6 +11,7 @@ CREATE TYPE "Evolution" AS ENUM ('pages', 'percentage');
 CREATE TABLE "users" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "image" TEXT NOT NULL,
@@ -54,6 +55,7 @@ CREATE TABLE "books" (
     "preSale" BOOLEAN NOT NULL DEFAULT false,
     "release" BOOLEAN NOT NULL DEFAULT false,
     "authorId" INTEGER NOT NULL,
+    "bookImage" TEXT NOT NULL,
     "categoryId" INTEGER NOT NULL,
 
     CONSTRAINT "books_pkey" PRIMARY KEY ("id")
@@ -63,7 +65,7 @@ CREATE TABLE "books" (
 CREATE TABLE "shelf" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "Ihave" BOOLEAN NOT NULL DEFAULT false,
+    "iHave" BOOLEAN NOT NULL DEFAULT false,
     "type" "bookType" NOT NULL,
     "status" "bookStatus" NOT NULL,
     "bookId" INTEGER NOT NULL,
@@ -99,6 +101,12 @@ CREATE TABLE "ratings" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "authors_name_key" ON "authors"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
 
 -- AddForeignKey
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

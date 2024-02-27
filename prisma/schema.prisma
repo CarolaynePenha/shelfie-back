@@ -56,6 +56,7 @@ model Book {
   release    Boolean  @default(false)
   authorId   Int
   author     Author   @relation(fields: [authorId], references: [id])
+  bookImage  String
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
   shelf      Shelf[]
