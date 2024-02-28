@@ -3,12 +3,16 @@ import {
   badRequestError,
   notFoundError,
 } from "../middlewares/handleErrorsMiddleware.js";
-import bookRepository from "../repositories/BookRepository.js";
 import authRepository from "../repositories/authRepository.js";
+import bookRepository from "../repositories/bookRepository.js";
 import shelfRepository from "../repositories/shelfRepository.js";
 
-async function getShelfBooks(userId: number) {
+async function getShelfBooks(src: string, userId: number) {
   await userExist(userId);
+  if (src) {
+    const shelfBooks = await shelfRepository.findBooksBySrc(src, userId);
+    return shelfBooks;
+  }
   const shelfBooks = await shelfRepository.findMany(userId);
   return shelfBooks;
 }

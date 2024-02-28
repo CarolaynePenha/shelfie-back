@@ -9,6 +9,34 @@ async function findMany(userId: number) {
   return shelfBooks;
 }
 
+async function findBooksBySrc(src: string, userId: number) {
+  const shelfbooks = await prisma.shelf.findMany({
+    include: { book: { include: { rating: true, author: true } } },
+    where: {
+      userId,
+      book: {
+        OR: [
+          {
+            title: {
+              contains: src,
+              mode: "insensitive",
+            },
+          },
+          {
+            author: {
+              name: {
+                contains: src,
+                mode: "insensitive",
+              },
+            },
+          },
+        ],
+      },
+    },
+  });
+  return shelfbooks;
+}
+
 async function saveBook(bookInfos: CreateShelf) {
   return await prisma.shelf.create({ data: bookInfos });
 }
@@ -21,5 +49,6 @@ const shelfRepository = {
   findMany,
   saveBook,
   findBookShelfById,
+  findBooksBySrc,
 };
 export default shelfRepository;

@@ -6,7 +6,8 @@ export type CreateShelf = Omit<Shelf, "id" | "createdAt">;
 
 export async function getShelfBooks(req: Request, res: Response) {
   const { userId } = res.locals;
-  const shelfBooks = await shelfService.getShelfBooks(userId);
+  const { src } = req.query;
+  const shelfBooks = await shelfService.getShelfBooks(src as string, userId);
   res.status(200).send(shelfBooks);
 }
 

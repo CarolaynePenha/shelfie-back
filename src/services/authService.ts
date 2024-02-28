@@ -51,7 +51,7 @@ function tokenGeneration(id: number) {
       data: id,
     },
     process.env.KEY,
-    { expiresIn: "1h" }
+    { expiresIn: "3h" }
   );
   return token;
 }
