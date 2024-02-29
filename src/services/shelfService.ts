@@ -7,9 +7,18 @@ import authRepository from "../repositories/authRepository.js";
 import bookRepository from "../repositories/bookRepository.js";
 import shelfRepository from "../repositories/shelfRepository.js";
 
-async function getShelfBooks(src: string, userId: number) {
+export interface CreateIds {
+  bookId: number;
+  userId: number;
+}
+
+async function getShelfBooks(src: string, userId: number, filter: string) {
   await userExist(userId);
   if (src) {
+    if (filter === "categoria") {
+      const shelfBooks = await shelfRepository.findBooksByCategory(src, userId);
+      return shelfBooks;
+    }
     const shelfBooks = await shelfRepository.findBooksBySrc(src, userId);
     return shelfBooks;
   }
@@ -20,7 +29,8 @@ async function getShelfBooks(src: string, userId: number) {
 async function postShelfBooks(bookInfos: CreateShelf) {
   await userExist(bookInfos.userId);
   await bookExist(bookInfos.bookId);
-  await bookExistInShelf(bookInfos.bookId);
+  const ids = { bookId: bookInfos.bookId, userId: bookInfos.userId };
+  await bookExistInShelf(ids);
   await shelfRepository.saveBook(bookInfos);
   return;
 }
@@ -43,18 +53,29 @@ async function bookExist(bookId: number) {
   return;
 }
 
-async function bookExistInShelf(bookId: number) {
-  const book = await shelfRepository.findBookShelfById(bookId);
-  if (book) {
-    const message = "Bookalready in the shelf ";
-    throw badRequestError(message);
+async function bookExistInShelf(ids: CreateIds, exist?: string) {
+  const shelfBookInfos = await shelfRepository.findBookShelfById(ids);
+  if (exist === "needExist") {
+    if (!shelfBookInfos) {
+      const message = "Book does not exist in the shelf ";
+      throw badRequestError(message);
+    }
+    return shelfBookInfos;
+  } else {
+    if (shelfBookInfos) {
+      const message = "Book already in the shelf ";
+      throw badRequestError(message);
+    }
+    return;
   }
-  return;
 }
 
 const shelfService = {
   getShelfBooks,
   postShelfBooks,
+  userExist,
+  bookExist,
+  bookExistInShelf,
 };
 
 export default shelfService;
