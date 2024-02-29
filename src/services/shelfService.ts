@@ -19,6 +19,10 @@ async function getShelfBooks(src: string, userId: number, filter: string) {
       const shelfBooks = await shelfRepository.findBooksByCategory(src, userId);
       return shelfBooks;
     }
+    if (filter === "ano") {
+      const shelfBooks = await shelfRepository.findBooksByYear(src, userId);
+      return shelfBooks;
+    }
     const shelfBooks = await shelfRepository.findBooksBySrc(src, userId);
     return shelfBooks;
   }

@@ -52,6 +52,23 @@ async function findBooksByCategory(category: string, userId: number) {
   });
   return shelfbooks;
 }
+async function findBooksByYear(year: string, userId: number) {
+  const shelfbooks = await prisma.shelf.findMany({
+    include: { book: { include: { rating: true, author: true } } },
+    where: {
+      userId,
+      rating: {
+        some: {
+          endDate: {
+            gte: new Date(Number(year), 0, 1),
+            lt: new Date(Number(year) + 1, 0, 1),
+          },
+        },
+      },
+    },
+  });
+  return shelfbooks;
+}
 
 async function saveBook(bookInfos: CreateShelf) {
   return await prisma.shelf.create({ data: bookInfos });
@@ -69,5 +86,6 @@ const shelfRepository = {
   findBookShelfById,
   findBooksBySrc,
   findBooksByCategory,
+  findBooksByYear,
 };
 export default shelfRepository;
