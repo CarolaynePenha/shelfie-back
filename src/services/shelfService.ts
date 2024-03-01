@@ -38,6 +38,10 @@ async function getShelfBooks(
     const shelfBooks = await shelfRepository.findBooksBySrc(src, userId);
     return shelfBooks;
   }
+  if (filter === "favorite") {
+    const shelfBooks = await shelfRepository.findFavoritesBooks(userId);
+    return shelfBooks;
+  }
 
   const shelfBooks = await shelfRepository.findMany(userId);
   return shelfBooks;

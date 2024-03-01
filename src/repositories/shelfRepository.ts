@@ -63,6 +63,16 @@ async function findBooksByStatus(status: BookStatus, userId: number) {
   });
   return shelfbooks;
 }
+async function findFavoritesBooks(userId: number) {
+  const shelfbooks = await prisma.shelf.findMany({
+    include: { book: { include: { rating: true, author: true } } },
+    where: {
+      userId,
+      favorite: true,
+    },
+  });
+  return shelfbooks;
+}
 async function findBooksByYear(year: string, userId: number) {
   const shelfbooks = await prisma.shelf.findMany({
     include: { book: { include: { rating: true, author: true } } },
@@ -99,5 +109,6 @@ const shelfRepository = {
   findBooksByCategory,
   findBooksByYear,
   findBooksByStatus,
+  findFavoritesBooks,
 };
 export default shelfRepository;
