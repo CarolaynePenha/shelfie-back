@@ -1,3 +1,4 @@
+import { BookStatus } from "@prisma/client";
 import { prisma } from "../config/database.js";
 import { CreateShelf } from "../controllers/shelfController.js";
 import { CreateIds } from "../services/shelfService.js";
@@ -52,6 +53,16 @@ async function findBooksByCategory(category: string, userId: number) {
   });
   return shelfbooks;
 }
+async function findBooksByStatus(status: BookStatus, userId: number) {
+  const shelfbooks = await prisma.shelf.findMany({
+    include: { book: { include: { rating: true, author: true } } },
+    where: {
+      userId,
+      status: status,
+    },
+  });
+  return shelfbooks;
+}
 async function findBooksByYear(year: string, userId: number) {
   const shelfbooks = await prisma.shelf.findMany({
     include: { book: { include: { rating: true, author: true } } },
@@ -87,5 +98,6 @@ const shelfRepository = {
   findBooksBySrc,
   findBooksByCategory,
   findBooksByYear,
+  findBooksByStatus,
 };
 export default shelfRepository;

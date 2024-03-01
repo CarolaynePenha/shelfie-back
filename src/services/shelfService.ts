@@ -1,3 +1,4 @@
+import { BookStatus } from "@prisma/client";
 import { CreateShelf } from "../controllers/shelfController.js";
 import {
   badRequestError,
@@ -12,7 +13,11 @@ export interface CreateIds {
   userId: number;
 }
 
-async function getShelfBooks(src: string, userId: number, filter: string) {
+async function getShelfBooks(
+  src: string | BookStatus,
+  userId: number,
+  filter: string
+) {
   await userExist(userId);
   if (src) {
     if (filter === "categoria") {
@@ -23,9 +28,17 @@ async function getShelfBooks(src: string, userId: number, filter: string) {
       const shelfBooks = await shelfRepository.findBooksByYear(src, userId);
       return shelfBooks;
     }
+    if (Object.values(BookStatus).includes(src as BookStatus)) {
+      const shelfBooks = await shelfRepository.findBooksByStatus(
+        src as BookStatus,
+        userId
+      );
+      return shelfBooks;
+    }
     const shelfBooks = await shelfRepository.findBooksBySrc(src, userId);
     return shelfBooks;
   }
+
   const shelfBooks = await shelfRepository.findMany(userId);
   return shelfBooks;
 }
