@@ -1,11 +1,12 @@
 import { CreateRating } from "../controllers/ratingController.js";
 import { badRequestError } from "../middlewares/handleErrorsMiddleware.js";
 import ratingRepository from "../repositories/ratingRepository.js";
+import bookService from "./bookService.js";
 import shelfService, { CreateIds } from "./shelfService.js";
 
 async function postRating(ratingInfos: CreateRating, userId: number) {
   await shelfService.userExist(userId);
-  await shelfService.bookExist(ratingInfos.bookId);
+  await bookService.bookExist(ratingInfos.bookId);
   const ids = { bookId: ratingInfos.bookId, userId };
   const shelfBookInfos = await shelfService.bookExistInShelf(ids, "needExist");
   await rantingExist(ids);

@@ -5,8 +5,8 @@ import {
   notFoundError,
 } from "../middlewares/handleErrorsMiddleware.js";
 import authRepository from "../repositories/authRepository.js";
-import bookRepository from "../repositories/bookRepository.js";
 import shelfRepository from "../repositories/shelfRepository.js";
+import bookService from "./bookService.js";
 
 export interface CreateIds {
   bookId: number;
@@ -49,7 +49,7 @@ async function getShelfBooks(
 
 async function postShelfBooks(bookInfos: CreateShelf) {
   await userExist(bookInfos.userId);
-  await bookExist(bookInfos.bookId);
+  await bookService.bookExist(bookInfos.bookId);
   const ids = { bookId: bookInfos.bookId, userId: bookInfos.userId };
   await bookExistInShelf(ids);
   await shelfRepository.saveBook(bookInfos);
@@ -63,15 +63,6 @@ async function userExist(userId: number) {
     throw notFoundError(message);
   }
   return user;
-}
-
-async function bookExist(bookId: number) {
-  const book = await bookRepository.findBookById(bookId);
-  if (!book) {
-    const message = "Book not found";
-    throw notFoundError(message);
-  }
-  return;
 }
 
 async function bookExistInShelf(ids: CreateIds, exist?: string) {
@@ -95,7 +86,6 @@ const shelfService = {
   getShelfBooks,
   postShelfBooks,
   userExist,
-  bookExist,
   bookExistInShelf,
 };
 
