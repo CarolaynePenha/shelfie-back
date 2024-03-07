@@ -18,6 +18,9 @@ export async function getShelfBooks(req: Request, res: Response) {
 export async function postShelfBooks(req: Request, res: Response) {
   const { userId } = res.locals;
   const shelfInfos: CreateShelf = req.body;
-  await shelfService.postShelfBooks({ ...shelfInfos, userId });
-  res.sendStatus(201);
+  const shelfBook = await shelfService.postShelfBooks({
+    ...shelfInfos,
+    userId,
+  });
+  res.status(201).send(shelfBook);
 }

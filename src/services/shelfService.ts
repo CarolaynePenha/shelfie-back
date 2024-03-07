@@ -52,8 +52,8 @@ async function postShelfBooks(bookInfos: CreateShelf) {
   await bookService.bookExist(bookInfos.bookId);
   const ids = { bookId: bookInfos.bookId, userId: bookInfos.userId };
   await bookExistInShelf(ids);
-  await shelfRepository.saveBook(bookInfos);
-  return;
+  const shelfBook = await shelfRepository.saveBook(bookInfos);
+  return shelfBook;
 }
 
 async function userExist(userId: number) {

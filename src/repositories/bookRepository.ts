@@ -10,7 +10,7 @@ async function findBookById(id: number) {
   GROUP BY books.id, authors.id
 `;
 
-  return book;
+  return book[0];
 }
 
 const bookRepository = {
