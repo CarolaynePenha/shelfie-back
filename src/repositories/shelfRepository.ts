@@ -1,7 +1,7 @@
 import { BookStatus } from "@prisma/client";
 import { prisma } from "../config/database.js";
 import { CreateShelf } from "../controllers/shelfController.js";
-import { CreateIds } from "../services/shelfService.js";
+import { CreateIds, UpdateBookInfos } from "../services/shelfService.js";
 
 async function findMany(userId: number) {
   const shelfBooks = await prisma.shelf.findMany({
@@ -101,6 +101,16 @@ async function findBookShelfById(ids: CreateIds) {
   });
   return book;
 }
+async function updateBookInfos(ids: CreateIds, bookInfos: UpdateBookInfos) {
+  return await prisma.shelf.update({
+    where: { bookId_userId: ids },
+    data: {
+      iHave: bookInfos.iHave,
+      type: bookInfos.type,
+      status: bookInfos.status,
+    },
+  });
+}
 
 async function deleteBook(ids: CreateIds) {
   return await prisma.shelf.delete({
@@ -117,5 +127,6 @@ const shelfRepository = {
   findBooksByStatus,
   findFavoritesBooks,
   deleteBook,
+  updateBookInfos,
 };
 export default shelfRepository;

@@ -2,8 +2,8 @@ import { Router } from "express";
 import tokenValidation from "./../middlewares/tokenValidation.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
 
-import ratingSchema from "../schemas/ratingSchema.js";
-import { postRating } from "../controllers/ratingController.js";
+import { postRating, updateRating } from "../controllers/ratingController.js";
+import { ratingSchema, updateratingSchema } from "../schemas/ratingSchema.js";
 
 const ratingRouter = Router();
 
@@ -12,6 +12,12 @@ ratingRouter.post(
   tokenValidation,
   validateSchema(ratingSchema),
   postRating
+);
+ratingRouter.put(
+  "/rating",
+  tokenValidation,
+  validateSchema(updateratingSchema),
+  updateRating
 );
 
 export default ratingRouter;

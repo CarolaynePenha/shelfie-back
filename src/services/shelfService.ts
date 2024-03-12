@@ -1,4 +1,4 @@
-import { BookStatus } from "@prisma/client";
+import { BookStatus, BookType } from "@prisma/client";
 import { CreateShelf } from "../controllers/shelfController.js";
 import {
   badRequestError,
@@ -11,8 +11,17 @@ import bookService from "./bookService.js";
 export interface CreateIds {
   bookId: number;
   userId: number;
+  shelfId?: number;
 }
 
+export interface UpdateBookInfos {
+  iHave?: boolean;
+  type?: BookType;
+  status?: BookStatus;
+  bookId: number;
+  userId: number;
+  favorite?: boolean;
+}
 async function getShelfBooks(
   src: string | BookStatus,
   userId: number,
@@ -87,13 +96,19 @@ async function deleteBook(ids: CreateIds) {
   await bookExistInShelf(ids);
   await shelfRepository.deleteBook(ids);
 }
-
+async function updatBook(bookInfos: UpdateBookInfos) {
+  await userExist(bookInfos.userId);
+  const ids = { bookId: bookInfos.bookId, userId: bookInfos.userId };
+  await bookExistInShelf(ids, "needExist");
+  await shelfRepository.updateBookInfos(ids, bookInfos);
+}
 const shelfService = {
   getShelfBooks,
   postShelfBooks,
   userExist,
   bookExistInShelf,
   deleteBook,
+  updatBook,
 };
 
 export default shelfService;

@@ -32,3 +32,9 @@ export async function deleteShelfBook(req: Request, res: Response) {
   await shelfService.deleteBook({ bookId, userId });
   res.sendStatus(200);
 }
+export async function updateShelfBook(req: Request, res: Response) {
+  const { userId } = res.locals;
+  const bookInfos = req.body;
+  await shelfService.updatBook({ ...bookInfos, userId });
+  res.sendStatus(200);
+}

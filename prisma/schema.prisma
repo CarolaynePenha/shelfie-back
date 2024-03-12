@@ -124,7 +124,7 @@ model Rating {
   stars     Float
   startDate DateTime
   endDate   DateTime
-  shelfId   Int
+  shelfId   Int      @unique
   shelf     Shelf    @relation(fields: [shelfId], references: [id])
   bookId    Int
   book      Book     @relation(fields: [bookId], references: [id])

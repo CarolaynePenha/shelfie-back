@@ -10,3 +10,10 @@ export async function postRating(req: Request, res: Response) {
   await ratingService.postRating(ratingInfos, userId);
   res.sendStatus(201);
 }
+export async function updateRating(req: Request, res: Response) {
+  const { userId } = res.locals;
+  const ratingInfos = req.body;
+  console.log("ratingInfos: ", ratingInfos);
+  await ratingService.updateRating({ ...ratingInfos, userId });
+  res.sendStatus(200);
+}
