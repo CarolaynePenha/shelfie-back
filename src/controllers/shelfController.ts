@@ -24,3 +24,11 @@ export async function postShelfBooks(req: Request, res: Response) {
   });
   res.status(201).send(shelfBook);
 }
+
+export async function deleteShelfBook(req: Request, res: Response) {
+  const { userId } = res.locals;
+  const { id } = req.params;
+  const bookId = Number(id);
+  await shelfService.deleteBook({ bookId, userId });
+  res.sendStatus(200);
+}

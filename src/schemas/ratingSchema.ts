@@ -8,5 +8,4 @@ const ratingSchema = joi.object<CreateRating>({
   startDate: joi.date().required(),
   endDate: joi.date().required(),
 });
-
 export default ratingSchema;

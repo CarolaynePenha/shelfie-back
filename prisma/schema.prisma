@@ -79,6 +79,7 @@ model Shelf {
   rating    Rating[]
   favorite  Boolean    @default(false)
 
+  @@unique([bookId, userId])
   @@map("shelf")
 }
 

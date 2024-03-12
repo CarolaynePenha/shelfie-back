@@ -82,11 +82,18 @@ async function bookExistInShelf(ids: CreateIds, exist?: string) {
   }
 }
 
+async function deleteBook(ids: CreateIds) {
+  await userExist(ids.userId);
+  await bookExistInShelf(ids);
+  await shelfRepository.deleteBook(ids);
+}
+
 const shelfService = {
   getShelfBooks,
   postShelfBooks,
   userExist,
   bookExistInShelf,
+  deleteBook,
 };
 
 export default shelfService;

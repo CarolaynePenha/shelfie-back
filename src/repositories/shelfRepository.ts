@@ -101,6 +101,12 @@ async function findBookShelfById(ids: CreateIds) {
   });
   return book;
 }
+
+async function deleteBook(ids: CreateIds) {
+  return await prisma.shelf.delete({
+    where: { bookId_userId: ids },
+  });
+}
 const shelfRepository = {
   findMany,
   saveBook,
@@ -110,5 +116,6 @@ const shelfRepository = {
   findBooksByYear,
   findBooksByStatus,
   findFavoritesBooks,
+  deleteBook,
 };
 export default shelfRepository;
