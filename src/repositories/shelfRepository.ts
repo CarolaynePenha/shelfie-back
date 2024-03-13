@@ -113,6 +113,7 @@ async function updateBookInfos(ids: CreateIds, bookInfos: UpdateBookInfos) {
 }
 
 async function deleteBook(ids: CreateIds) {
+  delete ids.shelfId;
   return await prisma.shelf.delete({
     where: { bookId_userId: ids },
   });

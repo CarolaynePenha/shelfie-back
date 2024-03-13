@@ -27,9 +27,11 @@ export async function postShelfBooks(req: Request, res: Response) {
 
 export async function deleteShelfBook(req: Request, res: Response) {
   const { userId } = res.locals;
-  const { id } = req.params;
-  const bookId = Number(id);
-  await shelfService.deleteBook({ bookId, userId });
+  const { idBook, idShelf } = req.params;
+  const bookId = Number(idBook);
+  const shelfId = Number(idShelf);
+
+  await shelfService.deleteBook({ bookId, shelfId, userId });
   res.sendStatus(200);
 }
 export async function updateShelfBook(req: Request, res: Response) {

@@ -7,13 +7,12 @@ export type CreateRating = Omit<Rating, "id" | "createdAt">;
 export async function postRating(req: Request, res: Response) {
   const { userId } = res.locals;
   const ratingInfos = req.body;
-  await ratingService.postRating(ratingInfos, userId);
-  res.sendStatus(201);
+  const rating = await ratingService.postRating(ratingInfos, userId);
+  res.status(201).send(rating);
 }
 export async function updateRating(req: Request, res: Response) {
   const { userId } = res.locals;
   const ratingInfos = req.body;
-  console.log("ratingInfos: ", ratingInfos);
   await ratingService.updateRating({ ...ratingInfos, userId });
   res.sendStatus(200);
 }

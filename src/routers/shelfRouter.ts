@@ -18,7 +18,7 @@ shelfRouter.post(
   validateSchema(shelfSchema),
   postShelfBooks
 );
-shelfRouter.delete("/shelf/:id", tokenValidation, deleteShelfBook);
+shelfRouter.delete("/shelf/:idBook/:idShelf", tokenValidation, deleteShelfBook);
 shelfRouter.put(
   "/shelf",
   tokenValidation,

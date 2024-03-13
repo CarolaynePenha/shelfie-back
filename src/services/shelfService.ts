@@ -7,6 +7,7 @@ import {
 import authRepository from "../repositories/authRepository.js";
 import shelfRepository from "../repositories/shelfRepository.js";
 import bookService from "./bookService.js";
+import ratingRepository from "../repositories/ratingRepository.js";
 
 export interface CreateIds {
   bookId: number;
@@ -93,14 +94,25 @@ async function bookExistInShelf(ids: CreateIds, exist?: string) {
 
 async function deleteBook(ids: CreateIds) {
   await userExist(ids.userId);
-  await bookExistInShelf(ids);
+  await bookExistInShelf(ids, "needExist");
+  await handleRanting(ids);
   await shelfRepository.deleteBook(ids);
 }
+
 async function updatBook(bookInfos: UpdateBookInfos) {
   await userExist(bookInfos.userId);
   const ids = { bookId: bookInfos.bookId, userId: bookInfos.userId };
   await bookExistInShelf(ids, "needExist");
   await shelfRepository.updateBookInfos(ids, bookInfos);
+}
+
+async function handleRanting(ids: CreateIds) {
+  const rating = await ratingRepository.findRating(ids);
+  if (rating) {
+    ratingRepository.deleteRating(ids.shelfId);
+    return;
+  }
+  return;
 }
 const shelfService = {
   getShelfBooks,

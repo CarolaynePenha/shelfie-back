@@ -20,21 +20,21 @@ async function postRating(ratingInfos: CreateRating, userId: number) {
   const shelfBookInfos = await shelfService.bookExistInShelf(ids, "needExist");
   await rantingExist(ids);
   statusConfirmation(shelfBookInfos.status);
-  await ratingRepository.saveRating(ratingInfos);
-  return;
+  const rating = await ratingRepository.saveRating(ratingInfos);
+  return rating;
 }
 
 async function rantingExist(ids: CreateIds, exist?: string) {
   const ranting = await ratingRepository.findRating(ids);
   if (exist === "needExist") {
     if (!ranting) {
-      const message = "Book does not exist in the shelf ";
+      const message = "Book does not rated ";
       throw badRequestError(message);
     }
     return;
   } else {
     if (ranting) {
-      const message = "Book already in the shelf ";
+      const message = "Book already rated ";
       throw badRequestError(message);
     }
     return;
