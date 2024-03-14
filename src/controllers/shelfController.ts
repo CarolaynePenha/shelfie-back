@@ -40,3 +40,9 @@ export async function updateShelfBook(req: Request, res: Response) {
   await shelfService.updatBook({ ...bookInfos, userId });
   res.sendStatus(200);
 }
+
+export async function getMetrics(req: Request, res: Response) {
+  const { userId } = res.locals;
+  const metrics = await shelfService.getMetrics(userId);
+  res.status(200).send(metrics);
+}

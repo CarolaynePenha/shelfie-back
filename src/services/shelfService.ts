@@ -114,6 +114,25 @@ async function handleRanting(ids: CreateIds) {
   }
   return;
 }
+
+async function getMetrics(userId: number) {
+  await userExist(userId);
+  const doneBooks = await shelfRepository.getMetrics(userId, "done");
+  console.log("doneBooks: ", doneBooks);
+  const abandonedBooks = await shelfRepository.getMetrics(userId, "abandoned");
+  const wishBooks = await shelfRepository.getMetrics(userId, "wish");
+  const totalBooks = await shelfRepository.getMetricsOfTotal(userId);
+  const favoriteBooks = await shelfRepository.getMetricsOfFavorites(userId);
+  console.log("wishBooks: ", wishBooks);
+  const metrics = {
+    doneBooks: doneBooks._count.status,
+    abandonedBooks: abandonedBooks._count.status,
+    wishBooks: wishBooks._count.status,
+    totalBooks: totalBooks._count.id,
+    favoriteBooks: favoriteBooks._count.favorite,
+  };
+  return metrics;
+}
 const shelfService = {
   getShelfBooks,
   postShelfBooks,
@@ -121,6 +140,7 @@ const shelfService = {
   bookExistInShelf,
   deleteBook,
   updatBook,
+  getMetrics,
 };
 
 export default shelfService;

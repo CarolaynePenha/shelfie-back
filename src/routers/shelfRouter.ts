@@ -4,6 +4,7 @@ import { validateSchema } from "../middlewares/validateSchema.js";
 import { shelfSchema, updateShelfSchema } from "../schemas/shelfSchema.js";
 import {
   deleteShelfBook,
+  getMetrics,
   getShelfBooks,
   postShelfBooks,
   updateShelfBook,
@@ -25,5 +26,6 @@ shelfRouter.put(
   validateSchema(updateShelfSchema),
   updateShelfBook
 );
+shelfRouter.get("/shelf/metrics", tokenValidation, getMetrics);
 
 export default shelfRouter;

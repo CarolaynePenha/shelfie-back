@@ -73,6 +73,37 @@ async function findFavoritesBooks(userId: number) {
   });
   return shelfbooks;
 }
+
+async function getMetrics(userId: number, status: BookStatus) {
+  const metrics = await prisma.shelf.aggregate({
+    where: {
+      userId,
+      status,
+    },
+    _count: { status: true },
+  });
+  return metrics;
+}
+
+async function getMetricsOfTotal(userId: number) {
+  const metrics = await prisma.shelf.aggregate({
+    where: {
+      userId,
+    },
+    _count: { id: true, favorite: true },
+  });
+  return metrics;
+}
+async function getMetricsOfFavorites(userId: number) {
+  const metrics = await prisma.shelf.aggregate({
+    where: {
+      userId,
+      favorite: true,
+    },
+    _count: { favorite: true },
+  });
+  return metrics;
+}
 async function findBooksByYear(year: string, userId: number) {
   const shelfbooks = await prisma.shelf.findMany({
     include: { book: { include: { rating: true, author: true } } },
@@ -129,5 +160,8 @@ const shelfRepository = {
   findFavoritesBooks,
   deleteBook,
   updateBookInfos,
+  getMetrics,
+  getMetricsOfTotal,
+  getMetricsOfFavorites,
 };
 export default shelfRepository;
