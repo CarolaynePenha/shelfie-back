@@ -104,6 +104,18 @@ async function getMetricsOfFavorites(userId: number) {
   });
   return metrics;
 }
+
+async function getTotalOfReadingPages(userId: number) {
+  const metrics = await prisma.$queryRaw`
+  
+  SELECT  SUM(books."totalPages") as total
+   FROM books
+   JOIN shelf ON books.id = shelf."bookId"
+   WHERE shelf."userId" = ${userId}
+   AND shelf.status= 'done' `;
+  const totalPages = parseInt(metrics[0].total) || 0;
+  return totalPages;
+}
 async function findBooksByYear(year: string, userId: number) {
   const shelfbooks = await prisma.shelf.findMany({
     include: { book: { include: { rating: true, author: true } } },
@@ -163,5 +175,6 @@ const shelfRepository = {
   getMetrics,
   getMetricsOfTotal,
   getMetricsOfFavorites,
+  getTotalOfReadingPages,
 };
 export default shelfRepository;

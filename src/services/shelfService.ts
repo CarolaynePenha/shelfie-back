@@ -118,18 +118,19 @@ async function handleRanting(ids: CreateIds) {
 async function getMetrics(userId: number) {
   await userExist(userId);
   const doneBooks = await shelfRepository.getMetrics(userId, "done");
-  console.log("doneBooks: ", doneBooks);
   const abandonedBooks = await shelfRepository.getMetrics(userId, "abandoned");
   const wishBooks = await shelfRepository.getMetrics(userId, "wish");
   const totalBooks = await shelfRepository.getMetricsOfTotal(userId);
   const favoriteBooks = await shelfRepository.getMetricsOfFavorites(userId);
-  console.log("wishBooks: ", wishBooks);
+  const totalPages = await shelfRepository.getTotalOfReadingPages(userId);
+  console.log("totalPages: ", totalPages);
   const metrics = {
     doneBooks: doneBooks._count.status,
     abandonedBooks: abandonedBooks._count.status,
     wishBooks: wishBooks._count.status,
     totalBooks: totalBooks._count.id,
     favoriteBooks: favoriteBooks._count.favorite,
+    totalPages,
   };
   return metrics;
 }
