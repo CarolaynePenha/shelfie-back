@@ -9,6 +9,7 @@ export const shelfSchema = joi.object<CreateShelf>({
     .string()
     .valid("done", "reading", "wish", "abandoned", "rereading")
     .required(),
+  favorite: joi.boolean(),
 });
 
 export const updateShelfSchema = joi.object<CreateShelf>({

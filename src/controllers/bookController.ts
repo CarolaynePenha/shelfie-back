@@ -8,3 +8,7 @@ export async function getBookById(req: Request, res: Response) {
   const book = await bookService.findBookById(ids);
   res.status(200).send(book);
 }
+export async function getRanking(req: Request, res: Response) {
+  const books = await bookService.getRanking();
+  res.status(200).send(books);
+}

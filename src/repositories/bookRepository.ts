@@ -12,9 +12,18 @@ async function findBookById(id: number) {
 
   return book[0];
 }
+async function getRanking() {
+  const books = await prisma.rating.findMany({
+    include: { book: true },
+    orderBy: { stars: "desc" },
+    take: 10,
+  });
+  return books;
+}
 
 const bookRepository = {
   findBookById,
+  getRanking,
 };
 
 export default bookRepository;
