@@ -146,6 +146,13 @@ async function getMetrics(userId: number) {
   };
   return metrics;
 }
+
+async function findBookById(ids: CreateIds) {
+  await bookExistInShelf(ids, "needExist");
+  const book = await shelfRepository.findBookById(ids);
+  return book;
+}
+
 const shelfService = {
   getShelfBooks,
   postShelfBooks,
@@ -155,6 +162,7 @@ const shelfService = {
   updatBook,
   getMetrics,
   updateFavoriteBook,
+  findBookById,
 };
 
 export default shelfService;

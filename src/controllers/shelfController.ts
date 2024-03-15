@@ -53,3 +53,11 @@ export async function updateFavoriteBook(req: Request, res: Response) {
   await shelfService.updateFavoriteBook(userId, updateInfos);
   res.sendStatus(201);
 }
+
+export async function findBookById(req: Request, res: Response) {
+  const { userId } = res.locals;
+  const { id } = req.params;
+  const ids = { userId, bookId: Number(id) };
+  const book = await shelfService.findBookById(ids);
+  res.status(200).send(book);
+}

@@ -4,7 +4,6 @@ async function getBooks(src: string) {
   const books = await prisma.book.findMany({
     include: {
       author: true,
-      shelf: { select: { status: true } },
     },
     where: {
       OR: [
