@@ -13,11 +13,14 @@ async function findBookById(id: number) {
   return book[0];
 }
 async function getRanking() {
-  const books = await prisma.rating.findMany({
-    include: { book: true },
-    orderBy: { stars: "desc" },
-    take: 10,
-  });
+  const books = await prisma.$queryRaw`
+  SELECT AVG(ratings.stars) as avg_stars, books.*
+FROM ratings
+JOIN books ON books.id = ratings."bookId"
+GROUP BY books.id
+ORDER BY avg_stars DESC
+LIMIT 10;
+  `;
   return books;
 }
 
