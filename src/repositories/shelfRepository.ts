@@ -155,6 +155,15 @@ async function updateBookInfos(ids: CreateIds, bookInfos: UpdateBookInfos) {
   });
 }
 
+async function updateFavoriteBook(ids: CreateIds, favorite: boolean) {
+  return await prisma.shelf.update({
+    where: { bookId_userId: ids },
+    data: {
+      favorite,
+    },
+  });
+}
+
 async function deleteBook(ids: CreateIds) {
   delete ids.shelfId;
   return await prisma.shelf.delete({
@@ -176,5 +185,6 @@ const shelfRepository = {
   getMetricsOfTotal,
   getMetricsOfFavorites,
   getTotalOfReadingPages,
+  updateFavoriteBook,
 };
 export default shelfRepository;

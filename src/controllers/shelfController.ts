@@ -46,3 +46,10 @@ export async function getMetrics(req: Request, res: Response) {
   const metrics = await shelfService.getMetrics(userId);
   res.status(200).send(metrics);
 }
+
+export async function updateFavoriteBook(req: Request, res: Response) {
+  const { userId } = res.locals;
+  const updateInfos = req.body;
+  await shelfService.updateFavoriteBook(userId, updateInfos);
+  res.sendStatus(201);
+}

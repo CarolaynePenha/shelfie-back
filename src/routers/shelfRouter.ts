@@ -7,6 +7,7 @@ import {
   getMetrics,
   getShelfBooks,
   postShelfBooks,
+  updateFavoriteBook,
   updateShelfBook,
 } from "../controllers/shelfController.js";
 
@@ -19,6 +20,7 @@ shelfRouter.post(
   validateSchema(shelfSchema),
   postShelfBooks
 );
+shelfRouter.put("/shelf/favorite", tokenValidation, updateFavoriteBook);
 shelfRouter.delete("/shelf/:idBook/:idShelf", tokenValidation, deleteShelfBook);
 shelfRouter.put(
   "/shelf",

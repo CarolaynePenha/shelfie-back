@@ -14,7 +14,10 @@ export interface CreateIds {
   userId: number;
   shelfId?: number;
 }
-
+export interface UpdateInfoFavoriteBook {
+  bookId: number;
+  favorite: boolean;
+}
 export interface UpdateBookInfos {
   iHave?: boolean;
   type?: BookType;
@@ -106,6 +109,16 @@ async function updatBook(bookInfos: UpdateBookInfos) {
   await shelfRepository.updateBookInfos(ids, bookInfos);
 }
 
+async function updateFavoriteBook(
+  userId: number,
+  updateInfos: UpdateInfoFavoriteBook
+) {
+  await userExist(userId);
+  const ids = { bookId: updateInfos.bookId, userId };
+  await bookExistInShelf(ids, "needExist");
+  await shelfRepository.updateFavoriteBook(ids, updateInfos.favorite);
+}
+
 async function handleRanting(ids: CreateIds) {
   const rating = await ratingRepository.findRating(ids);
   if (rating) {
@@ -123,7 +136,6 @@ async function getMetrics(userId: number) {
   const totalBooks = await shelfRepository.getMetricsOfTotal(userId);
   const favoriteBooks = await shelfRepository.getMetricsOfFavorites(userId);
   const totalPages = await shelfRepository.getTotalOfReadingPages(userId);
-  console.log("totalPages: ", totalPages);
   const metrics = {
     doneBooks: doneBooks._count.status,
     abandonedBooks: abandonedBooks._count.status,
@@ -142,6 +154,7 @@ const shelfService = {
   deleteBook,
   updatBook,
   getMetrics,
+  updateFavoriteBook,
 };
 
 export default shelfService;
