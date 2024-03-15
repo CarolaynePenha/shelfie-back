@@ -1,3 +1,4 @@
+import { array } from "joi";
 import { notFoundError } from "../middlewares/handleErrorsMiddleware.js";
 import bookRepository from "../repositories/bookRepository.js";
 import shelfRepository from "../repositories/shelfRepository.js";
@@ -25,7 +26,18 @@ async function bookExist(id: number) {
 
 async function getRanking() {
   const books = await bookRepository.getRanking();
-  return books;
+  const totalRankings = await bookRepository.getTotalOfRankings();
+  if (Array.isArray(books)) {
+    const booksWithTotal = books.map((book) => {
+      const totalOfRankings = totalRankings.find(
+        (totalranking) => totalranking.bookId === book.id
+      );
+      return { ...book, totalOfRankings: totalOfRankings._count.id };
+    });
+    return booksWithTotal;
+  } else {
+    return books;
+  }
 }
 
 const bookService = {

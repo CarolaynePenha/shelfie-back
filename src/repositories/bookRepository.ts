@@ -14,19 +14,30 @@ async function findBookById(id: number) {
 }
 async function getRanking() {
   const books = await prisma.$queryRaw`
-  SELECT AVG(ratings.stars) as avg_stars, books.*
+  SELECT AVG(ratings.stars) as "avgStars", books.*
 FROM ratings
 JOIN books ON books.id = ratings."bookId"
 GROUP BY books.id
-ORDER BY avg_stars DESC
+ORDER BY "avgStars" DESC
 LIMIT 10;
   `;
+  return books;
+}
+
+async function getTotalOfRankings() {
+  const books = await prisma.rating.groupBy({
+    by: ["bookId"],
+    _count: {
+      id: true,
+    },
+  });
   return books;
 }
 
 const bookRepository = {
   findBookById,
   getRanking,
+  getTotalOfRankings,
 };
 
 export default bookRepository;
