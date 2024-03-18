@@ -90,7 +90,7 @@ async function getMetricsOfTotal(userId: number) {
     where: {
       userId,
     },
-    _count: { id: true, favorite: true },
+    _count: { id: true },
   });
   return metrics;
 }

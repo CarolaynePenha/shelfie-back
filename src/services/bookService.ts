@@ -7,10 +7,26 @@ import { CreateIds } from "./shelfService.js";
 async function findBookById(ids: CreateIds) {
   const book = await bookExist(ids.bookId);
   const shelfBookInfos = await shelfRepository.findBookShelfById(ids);
+  const metricDone = await bookRepository.getMetricDone(ids.bookId);
+  console.log("metricDone: ", metricDone);
+  const metricWish = await bookRepository.getMetricWish(ids.bookId);
+  const metricReading = await bookRepository.getMetricReading(ids.bookId);
   if (shelfBookInfos) {
-    return { ...book, status: shelfBookInfos.status };
+    return {
+      ...book,
+      status: shelfBookInfos.status,
+      metricDone: metricDone._count.status,
+      metricWish: metricWish._count.status,
+      metricReading: metricReading._count.status,
+    };
   } else {
-    return { ...book, status: null };
+    return {
+      ...book,
+      status: null,
+      metricDone: metricDone._count.status,
+      metricWish: metricWish._count.status,
+      metricReading: metricReading._count.status,
+    };
   }
 }
 

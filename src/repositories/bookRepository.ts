@@ -34,10 +34,44 @@ async function getTotalOfRankings() {
   return books;
 }
 
+async function getMetricDone(bookId: number) {
+  const metrics = await prisma.shelf.aggregate({
+    where: {
+      bookId,
+      status: "done",
+    },
+    _count: { status: true },
+  });
+  return metrics;
+}
+async function getMetricWish(bookId: number) {
+  const metrics = await prisma.shelf.aggregate({
+    where: {
+      bookId,
+      status: "wish",
+    },
+    _count: { status: true },
+  });
+  return metrics;
+}
+async function getMetricReading(bookId: number) {
+  const metrics = await prisma.shelf.aggregate({
+    where: {
+      bookId,
+      status: "reading",
+    },
+    _count: { status: true },
+  });
+  return metrics;
+}
+
 const bookRepository = {
   findBookById,
   getRanking,
   getTotalOfRankings,
+  getMetricDone,
+  getMetricWish,
+  getMetricReading,
 };
 
 export default bookRepository;
