@@ -8,7 +8,6 @@ async function findBookById(ids: CreateIds) {
   const book = await bookExist(ids.bookId);
   const shelfBookInfos = await shelfRepository.findBookShelfById(ids);
   const metricDone = await bookRepository.getMetricDone(ids.bookId);
-  console.log("metricDone: ", metricDone);
   const metricWish = await bookRepository.getMetricWish(ids.bookId);
   const metricReading = await bookRepository.getMetricReading(ids.bookId);
   if (shelfBookInfos) {
