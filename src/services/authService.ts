@@ -21,7 +21,7 @@ async function saveUser(signUpInfos: CreateUser) {
 async function userExists(email: string, type: string) {
   const user = await authRepository.findByEmail(email);
   if (type === "signUp" && user) {
-    const message = "email already exists";
+    const message = "E-mail already exists";
     throw conflictError(message);
   }
   if (type === "signIn" && !user) {

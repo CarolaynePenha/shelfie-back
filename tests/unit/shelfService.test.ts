@@ -22,7 +22,7 @@ describe("shelf service unit test suite", () => {
         return {
           id: faker.number.int(),
           createdAt: faker.date.recent(),
-          name: faker.word.adverb(),
+          name: faker.word.noun(),
           email: faker.internet.email(),
           password: faker.internet.password(),
           image: faker.internet.url(),
