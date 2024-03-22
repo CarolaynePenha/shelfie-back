@@ -82,13 +82,13 @@ async function bookExistInShelf(ids: CreateIds, exist?: string) {
   const shelfBookInfos = await shelfRepository.findBookShelfById(ids);
   if (exist === "needExist") {
     if (!shelfBookInfos) {
-      const message = "Book does not exist in the shelf ";
+      const message = "Book does not exist in the shelf";
       throw badRequestError(message);
     }
     return shelfBookInfos;
   } else {
     if (shelfBookInfos) {
-      const message = "Book already in the shelf ";
+      const message = "Book already in the shelf";
       throw badRequestError(message);
     }
     return;
@@ -98,7 +98,7 @@ async function bookExistInShelf(ids: CreateIds, exist?: string) {
 async function deleteBook(ids: CreateIds) {
   await userExist(ids.userId);
   await bookExistInShelf(ids, "needExist");
-  await handleRanting(ids);
+  await handleRating(ids);
   await shelfRepository.deleteBook(ids);
 }
 
@@ -119,11 +119,10 @@ async function updateFavoriteBook(
   await shelfRepository.updateFavoriteBook(ids, updateInfos.favorite);
 }
 
-async function handleRanting(ids: CreateIds) {
+async function handleRating(ids: CreateIds) {
   const rating = await ratingRepository.findRating(ids);
   if (rating) {
     ratingRepository.deleteRating(ids.shelfId);
-    return;
   }
   return;
 }

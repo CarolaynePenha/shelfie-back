@@ -1,4 +1,3 @@
-import { array } from "joi";
 import { notFoundError } from "../middlewares/handleErrorsMiddleware.js";
 import bookRepository from "../repositories/bookRepository.js";
 import shelfRepository from "../repositories/shelfRepository.js";
