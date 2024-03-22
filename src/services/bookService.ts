@@ -40,7 +40,9 @@ async function bookExist(id: number) {
 
 async function getRanking() {
   const books = await bookRepository.getRanking();
+  console.log("books: ", books);
   const totalRankings = await bookRepository.getTotalOfRankings();
+  console.log("totalRankings: ", totalRankings);
   if (Array.isArray(books)) {
     const booksWithTotal = books.map((book) => {
       const totalOfRankings = totalRankings.find(

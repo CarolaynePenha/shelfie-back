@@ -34,9 +34,6 @@ describe("shelf service unit test suite", () => {
     expect(shelfRepository.findMany).toHaveBeenCalled();
   });
   it("getShelfBooks should throw notFoundError error", async () => {
-    jest.spyOn(shelfRepository, "findMany").mockImplementationOnce((): any => {
-      return null;
-    });
     jest
       .spyOn(authRepository, "findUserById")
       .mockImplementationOnce((): any => {
@@ -75,9 +72,7 @@ describe("shelf service unit test suite", () => {
       .mockImplementationOnce((): any => {
         return { book: "book" };
       });
-    jest.spyOn(shelfRepository, "saveBook").mockImplementationOnce((): any => {
-      return null;
-    });
+
     const bookInfos = {
       favorite: true,
       iHave: false,
@@ -499,11 +494,7 @@ describe("shelf service unit test suite", () => {
       .mockImplementationOnce((): any => {
         return null;
       });
-    jest
-      .spyOn(shelfRepository, "findBookById")
-      .mockImplementationOnce((): any => {
-        return null;
-      });
+
     const ids = {
       bookId: faker.number.int(),
       userId: faker.number.int(),

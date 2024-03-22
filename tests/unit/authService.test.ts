@@ -33,11 +33,6 @@ describe("auth service unit test suite", () => {
   });
   it("saveUser should throw conflictError error", async () => {
     jest
-      .spyOn(authRepository, "postUserInfos")
-      .mockImplementationOnce((): any => {
-        return null;
-      });
-    jest
       .spyOn(authRepository, "findByEmail")
       .mockImplementationOnce((): any => {
         return { user: "user" };
@@ -79,11 +74,6 @@ describe("auth service unit test suite", () => {
   });
   it("createSession should throw unauthorizedError error, if user doesn't exist", async () => {
     jest
-      .spyOn(authRepository, "createSession")
-      .mockImplementationOnce((): any => {
-        return null;
-      });
-    jest
       .spyOn(authRepository, "findByEmail")
       .mockImplementationOnce((): any => {
         return null;
@@ -102,11 +92,6 @@ describe("auth service unit test suite", () => {
     });
   });
   it("createSession should throw unauthorizedError error, if incorrect password ", async () => {
-    jest
-      .spyOn(authRepository, "createSession")
-      .mockImplementationOnce((): any => {
-        return null;
-      });
     const SALT = 10;
     jest
       .spyOn(authRepository, "findByEmail")
