@@ -31,7 +31,7 @@ describe("auth service unit test suite", () => {
     expect(authRepository.findByEmail).toHaveBeenCalled();
     expect(authRepository.postUserInfos).toHaveBeenCalled();
   });
-  it("saveUser should throw conflictError error", async () => {
+  it("saveUser should throw conflictError", async () => {
     jest
       .spyOn(authRepository, "findByEmail")
       .mockImplementationOnce((): any => {
@@ -72,7 +72,7 @@ describe("auth service unit test suite", () => {
     await authService.createSession(signInInfos);
     expect(authRepository.createSession).toHaveBeenCalled();
   });
-  it("createSession should throw unauthorizedError error, if user doesn't exist", async () => {
+  it("createSession should throw unauthorizedError, if user doesn't exist", async () => {
     jest
       .spyOn(authRepository, "findByEmail")
       .mockImplementationOnce((): any => {
@@ -91,7 +91,7 @@ describe("auth service unit test suite", () => {
       type: "unauthorized",
     });
   });
-  it("createSession should throw unauthorizedError error, if incorrect password ", async () => {
+  it("createSession should throw unauthorizedError, if incorrect password ", async () => {
     const SALT = 10;
     jest
       .spyOn(authRepository, "findByEmail")

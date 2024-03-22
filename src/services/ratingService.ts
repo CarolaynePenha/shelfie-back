@@ -34,7 +34,7 @@ async function rantingExist(ids: CreateIds, exist?: string) {
     return;
   } else {
     if (ranting) {
-      const message = "Book already rated ";
+      const message = "Book already rated";
       throw badRequestError(message);
     }
     return;
