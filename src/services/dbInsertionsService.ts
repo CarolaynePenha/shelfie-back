@@ -7,6 +7,11 @@ import {
 import dbInsertionsRepository from "../repositories/dbInsertionsRepository.js";
 
 async function saveBooks(booksInfos: CreateBooks) {
+  if (Array.isArray(booksInfos)) {
+    return await Promise.all(
+      booksInfos.map((bookInfos) => dbInsertionsRepository.postBooks(bookInfos))
+    );
+  }
   return await dbInsertionsRepository.postBooks(booksInfos);
 }
 async function saveAuthors(authorsInfos: CreateAuthors | CreateAuthors[]) {
@@ -14,9 +19,8 @@ async function saveAuthors(authorsInfos: CreateAuthors | CreateAuthors[]) {
     return await Promise.all(
       authorsInfos.map((author) => dbInsertionsRepository.postAuthors(author))
     );
-  } else {
-    return await dbInsertionsRepository.postAuthors(authorsInfos);
   }
+  return await dbInsertionsRepository.postAuthors(authorsInfos);
 }
 async function saveCategories(
   categoriesInfos: CreateCategories | CreateCategories[]
@@ -27,9 +31,8 @@ async function saveCategories(
         dbInsertionsRepository.postCategories(category)
       )
     );
-  } else {
-    return await dbInsertionsRepository.postCategories(categoriesInfos);
   }
+  return await dbInsertionsRepository.postCategories(categoriesInfos);
 }
 
 const dbInsertionsService = {

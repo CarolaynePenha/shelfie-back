@@ -6,7 +6,16 @@ import {
 } from "../controllers/dbInsertionsController.js";
 
 async function postBooks(booksInfos: CreateBooks) {
-  return await prisma.book.createMany({ data: booksInfos });
+  return await prisma.book.upsert({
+    where: {
+      title_authorId: {
+        title: booksInfos.title,
+        authorId: booksInfos.authorId,
+      },
+    },
+    update: {},
+    create: booksInfos,
+  });
 }
 
 async function postAuthors(authorsInfos: CreateAuthors) {

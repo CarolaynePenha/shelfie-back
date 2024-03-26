@@ -70,6 +70,7 @@ CREATE TABLE "shelf" (
     "status" "bookStatus" NOT NULL,
     "bookId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
+    "favorite" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "shelf_pkey" PRIMARY KEY ("id")
 );
@@ -107,6 +108,15 @@ CREATE UNIQUE INDEX "authors_name_key" ON "authors"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "books_title_authorId_key" ON "books"("title", "authorId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "shelf_bookId_userId_key" ON "shelf"("bookId", "userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ratings_shelfId_key" ON "ratings"("shelfId");
 
 -- AddForeignKey
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
