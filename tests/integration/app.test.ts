@@ -3,6 +3,7 @@ import authTests from "./auth.tests.js";
 import bookTests from "./book.tests.js";
 import ratingTests from "./rating.tests.js";
 import shelfTests from "./shelf.tests.js";
+import srcTests from "./src.tests.js";
 
 beforeEach(async () => {
   await prisma.$executeRaw`DELETE FROM ratings`;
@@ -14,6 +15,7 @@ authTests();
 bookTests();
 ratingTests();
 shelfTests();
+srcTests();
 
 afterAll(async () => {
   await prisma.$disconnect();
