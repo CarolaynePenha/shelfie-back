@@ -84,7 +84,7 @@ export default function bookTests() {
         .get(`/ranking`)
         .set("Authorization", `Bearer ${token}`);
 
-      expect(response.body[0].id).toBe(2);
+      expect(response.body[0].id).toBe(ratingInfos[1].bookId);
     });
   });
 }

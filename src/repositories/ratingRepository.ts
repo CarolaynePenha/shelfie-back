@@ -12,10 +12,7 @@ async function findRating(ids: CreateIds) {
     where: { bookId: ids.bookId, shelf: { userId: ids.userId } },
   });
 }
-async function updateRatingInfos(
-  ids: CreateIds,
-  ratingInfos: UpdateRatingInfos
-) {
+async function updateRatingInfos(ratingInfos: UpdateRatingInfos) {
   return await prisma.rating.update({
     where: { shelfId: ratingInfos.shelfId },
     data: {

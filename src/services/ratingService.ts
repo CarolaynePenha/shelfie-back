@@ -53,7 +53,7 @@ async function updateRating(ratingInfos: UpdateRatingInfos) {
   const ids = { bookId: ratingInfos.bookId, userId: ratingInfos.userId };
   await shelfService.userExist(ids.userId);
   await rantingExist(ids, "needExist");
-  await ratingRepository.updateRatingInfos(ids, ratingInfos);
+  await ratingRepository.updateRatingInfos(ratingInfos);
 }
 const ratingService = {
   postRating,
