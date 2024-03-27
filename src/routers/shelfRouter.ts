@@ -1,7 +1,11 @@
 import { Router } from "express";
 import tokenValidation from "./../middlewares/tokenValidation.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
-import { shelfSchema, updateShelfSchema } from "../schemas/shelfSchema.js";
+import {
+  shelfSchema,
+  updateFavoriteBookSchema,
+  updateShelfSchema,
+} from "../schemas/shelfSchema.js";
 import {
   deleteShelfBook,
   findBookById,
@@ -21,7 +25,12 @@ shelfRouter.post(
   validateSchema(shelfSchema),
   postShelfBooks
 );
-shelfRouter.put("/shelf/favorite", tokenValidation, updateFavoriteBook);
+shelfRouter.put(
+  "/shelf/favorite",
+  tokenValidation,
+  validateSchema(updateFavoriteBookSchema),
+  updateFavoriteBook
+);
 shelfRouter.delete("/shelf/:idBook/:idShelf", tokenValidation, deleteShelfBook);
 shelfRouter.put(
   "/shelf",

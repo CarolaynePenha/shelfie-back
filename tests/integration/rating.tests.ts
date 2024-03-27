@@ -3,6 +3,7 @@ import app from "../../src/app.js";
 import authFactory from "./factories/authFactory.js";
 import { prisma } from "../../src/config/database.js";
 import { BookStatus, BookType } from "@prisma/client";
+import shelfFactory from "./factories/shelfFactory.js";
 
 export default function ratingTests() {
   describe("rating tests suite", () => {
@@ -20,8 +21,9 @@ export default function ratingTests() {
         iHave: false,
         type: BookType.paper,
         status: BookStatus.done,
+        favorite: false,
       };
-      const shelf = await prisma.shelf.create({ data: bookInfos });
+      const shelf = await shelfFactory.saveinShelf(bookInfos);
       const ratingInfos = {
         bookId: 1,
         shelfId: shelf.id,
@@ -51,8 +53,9 @@ export default function ratingTests() {
         iHave: false,
         type: BookType.paper,
         status: BookStatus.done,
+        favorite: false,
       };
-      const shelf = await prisma.shelf.create({ data: bookInfos });
+      const shelf = await shelfFactory.saveinShelf(bookInfos);
       const token = await authFactory.createSession(signInCredentials);
       const ratingInfos = {
         bookId: 1,
@@ -64,7 +67,7 @@ export default function ratingTests() {
         .post(`/rating`)
         .send(ratingInfos)
         .set("Authorization", `Bearer ${token}`);
-      const rating = await prisma.rating.findFirst({
+      await prisma.rating.findFirst({
         include: { shelf: true },
         where: { bookId: ratingInfos.bookId, shelf: { userId: user.id } },
       });
@@ -85,6 +88,7 @@ export default function ratingTests() {
           iHave: false,
           type: BookType.paper,
           status: BookStatus.done,
+          favorite: false,
         },
         {
           userId: user.id,
@@ -92,10 +96,11 @@ export default function ratingTests() {
           iHave: true,
           type: BookType.paper,
           status: BookStatus.done,
+          favorite: false,
         },
       ];
-      const firstShelf = await prisma.shelf.create({ data: bookInfos[0] });
-      const secondShelf = await prisma.shelf.create({ data: bookInfos[1] });
+      const firstShelf = await shelfFactory.saveinShelf(bookInfos[0]);
+      const secondShelf = await shelfFactory.saveinShelf(bookInfos[1]);
       const ratingInfos = [
         {
           bookId: 1,
@@ -148,6 +153,7 @@ export default function ratingTests() {
           iHave: false,
           type: BookType.paper,
           status: BookStatus.done,
+          favorite: false,
         },
         {
           userId: user.id,
@@ -155,10 +161,11 @@ export default function ratingTests() {
           iHave: true,
           type: BookType.paper,
           status: BookStatus.done,
+          favorite: false,
         },
       ];
-      const firstShelf = await prisma.shelf.create({ data: bookInfos[0] });
-      const secondShelf = await prisma.shelf.create({ data: bookInfos[1] });
+      const firstShelf = await shelfFactory.saveinShelf(bookInfos[0]);
+      const secondShelf = await shelfFactory.saveinShelf(bookInfos[1]);
       const ratingInfos = [
         {
           bookId: 1,
@@ -190,7 +197,7 @@ export default function ratingTests() {
         .send(infosToUpdate)
         .set("Authorization", `Bearer ${token}`);
 
-      const rating = await prisma.rating.findFirst({
+      await prisma.rating.findFirst({
         where: { bookId: infosToUpdate.bookId, shelf: { userId: user.id } },
       });
       expect(response.status).toBe(422);
