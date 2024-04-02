@@ -171,6 +171,10 @@ async function deleteBook(ids: CreateIds) {
   });
 }
 
+async function deleteAll() {
+  return await prisma.shelf.deleteMany();
+}
+
 async function findBookById(ids: CreateIds) {
   const book = await prisma.$queryRaw`
  SELECT books.*, authors.*, shelf.*, ratings."startDate",ratings."endDate", ratings.id as "ratingId", AVG(ratings.stars) as totalStars
@@ -202,5 +206,6 @@ const shelfRepository = {
   getTotalOfReadingPages,
   updateFavoriteBook,
   findBookById,
+  deleteAll,
 };
 export default shelfRepository;

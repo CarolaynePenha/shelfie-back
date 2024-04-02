@@ -152,6 +152,13 @@ async function findBookById(ids: CreateIds) {
   return book;
 }
 
+async function deleteAll() {
+  await ratingRepository.deleteAll();
+  await shelfRepository.deleteAll();
+  await authRepository.deleteAllSession();
+  await authRepository.deleteAllUsers();
+  return;
+}
 const shelfService = {
   getShelfBooks,
   postShelfBooks,
@@ -162,6 +169,7 @@ const shelfService = {
   getMetrics,
   updateFavoriteBook,
   findBookById,
+  deleteAll,
 };
 
 export default shelfService;

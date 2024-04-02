@@ -20,12 +20,21 @@ async function findUserById(id: number) {
   delete user.password;
   return user;
 }
+async function deleteAllSession() {
+  return await prisma.session.deleteMany();
+}
+
+async function deleteAllUsers() {
+  return await prisma.user.deleteMany();
+}
 
 const authRepository = {
   findByEmail,
   postUserInfos,
   createSession,
   findUserById,
+  deleteAllSession,
+  deleteAllUsers,
 };
 
 export default authRepository;

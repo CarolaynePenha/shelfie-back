@@ -28,10 +28,15 @@ async function deleteRating(shelfId: number) {
     where: { shelfId },
   });
 }
+
+async function deleteAll() {
+  return await prisma.rating.deleteMany();
+}
 const ratingRepository = {
   saveRating,
   findRating,
   updateRatingInfos,
   deleteRating,
+  deleteAll,
 };
 export default ratingRepository;
