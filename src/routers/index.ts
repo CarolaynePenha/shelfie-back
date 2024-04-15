@@ -4,7 +4,7 @@ import SrcBarRouter from "./srcBarRouter.js";
 import shelfRouter from "./shelfRouter.js";
 import ratingRouter from "./ratingRouter.js";
 import bookRouter from "./bookRouter.js";
-import authRouter from "./authRouter.js";
+import authRouter from "./authenticationRouter.js";
 const router = Router();
 
 router.use(dbInsertionRouter);
