@@ -7,8 +7,8 @@ import bookRouter from "./bookRouter.js";
 import authRouter from "./authRouter.js";
 const router = Router();
 
-router.use(authRouter);
 router.use(dbInsertionRouter);
+router.use(authRouter);
 router.use(SrcBarRouter);
 router.use(shelfRouter);
 router.use(ratingRouter);
