@@ -5,8 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "npm i && tsc && prisma migrate deploy && npx node dist/prisma/seed.js",
-    "start": "node dist/src/server.js",
+    "build": "npm i && tsc && prisma migrate deploy",
+    "start": "npx node dist/prisma/seed.js && node dist/src/server.js",
     "dev": "nodemon ./src/server.ts",
     "dev:test": "dotenv -e .env.test nodemon src/server.ts",
     "db-seed":"dotenv -e .env prisma db seed ",
