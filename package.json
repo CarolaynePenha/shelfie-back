@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "npm i && prisma migrate dev && prisma db seed && tsc",
+    "build": "npm i && prisma migrate dev && tsc && prisma db seed",
     "start": "node dist/src/server.js",
     "dev": "nodemon ./src/server.ts",
     "dev:test": "dotenv -e .env.test nodemon src/server.ts",
@@ -15,7 +15,7 @@
     "test:unit": "dotenv -e .env.test cross-env NODE_OPTIONS=--experimental-vm-modules jest -- -i --coverage --testPathPattern=tests/unit"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "node prisma/seed.js"
   },
   "keywords": [],
   "author": "",
