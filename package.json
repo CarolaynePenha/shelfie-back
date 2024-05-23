@@ -15,7 +15,7 @@
     "test:unit": "dotenv -e .env.test cross-env NODE_OPTIONS=--experimental-vm-modules jest -- -i --coverage --testPathPattern=tests/unit"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node ../prisma/seed.js"
   },
   "keywords": [],
   "author": "",
